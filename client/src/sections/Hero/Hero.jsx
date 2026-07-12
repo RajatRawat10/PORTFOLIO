@@ -11,7 +11,7 @@ export const Hero = () => {
           <span className="hero-welcome">Hello, I'm</span>
           <h1 className="hero-name">{personalInfo.name}</h1>
           <h2 className="hero-tagline">{personalInfo.subtitle}</h2>
-          <p className="hero-bio">{personalInfo.bio}</p>
+          <p className="hero-bio">{personalInfo.heroBio}</p>
           <div className="hero-actions">
             <Button variant="primary" href="#contact">
               Get in Touch

@@ -48,19 +48,19 @@ export const About = () => {
 
           <div className="about-stats">
             <div className="stat-box">
-              <div className="stat-num">5+</div>
+              <div className="stat-num">1+</div>
               <div className="stat-label">Years Experience</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">50+</div>
+              <div className="stat-num">10+</div>
               <div className="stat-label">Projects Completed</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">20+</div>
-              <div className="stat-label">Happy Clients</div>
+              <div className="stat-num">5+</div>
+              <div className="stat-label">Live Modules</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">1k+</div>
+              <div className="stat-num">500+</div>
               <div className="stat-label">Git Commits</div>
             </div>
           </div>

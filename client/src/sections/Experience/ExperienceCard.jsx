@@ -53,9 +53,17 @@ export const ExperienceCard = ({ exp }) => {
             {exp.duration}
           </span>
         </div>
-        <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-subtle)', lineHeight: '1.6' }}>
-          {exp.description}
-        </p>
+        {Array.isArray(exp.description) ? (
+          <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.95rem', color: 'var(--text-subtle)', lineHeight: '1.6', listStyleType: 'disc' }}>
+            {exp.description.map((bullet, idx) => (
+              <li key={idx} style={{ marginBottom: '0.5rem' }}>{bullet}</li>
+            ))}
+          </ul>
+        ) : (
+          <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-subtle)', lineHeight: '1.6' }}>
+            {exp.description}
+          </p>
+        )}
       </div>
     </div>
   );
