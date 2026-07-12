@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionTitle from '../../components/ui/SectionTitle';
 import Loader from '../../components/ui/Loader';
 import GithubStats from '../../components/github/GithubStats';
