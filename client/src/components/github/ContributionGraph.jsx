@@ -1,98 +1,68 @@
 import React from 'react';
-
-export const ContributionGraph = ({ contributions }) => {
-  if (!contributions || !contributions.days) {
-    return null;
-  }
-
-  const { total, days } = contributions;
-
-  // GitHub contribution colors based on levels (0-4)
-  const getLevelColor = (level) => {
-    switch (level) {
-      case 1:
-        return 'var(--graph-level-1, #0e4429)';
-      case 2:
-        return 'var(--graph-level-2, #006d32)';
-      case 3:
-        return 'var(--graph-level-3, #26a641)';
-      case 4:
-        return 'var(--graph-level-4, #39d353)';
-      default:
-        return 'var(--graph-level-0, var(--border-color))';
-    }
-  };
+import { personalInfo } from '../../data/personalInfo';
+import GitHubCalendar from "react-github-calendar";
+export const ContributionGraph = () => {
+  // Parse username from personal info URL
+  const githubUrl = personalInfo.github || 'https://github.com/rajatrawat10';
+  const username = githubUrl.split('/').pop() || 'rajatrawat10';
 
   const containerStyle = {
-    padding: '1.5rem',
+    padding: '2rem',
     borderRadius: 'var(--radius-md)',
     backgroundColor: 'var(--bg-surface)',
     border: '1px solid var(--border-color)',
     boxShadow: 'var(--shadow-sm)',
     width: '100%',
-    overflowX: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1.5rem',
   };
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateRows: 'repeat(7, 10px)',
-    gridAutoFlow: 'column',
-    gap: '3px',
-    minWidth: '700px',
-    marginTop: '1rem'
+  // Explicit HSL themes matching the portfolio's blue palette
+  const customTheme = {
+    light: [
+      'hsl(206, 50%, 94%)', // #E5EFF6 (Light base)
+      'hsl(206, 49%, 80%)', // #B3CFE5 (Ice blue)
+      'hsl(206, 39%, 60%)', // Steel light
+      'hsl(206, 39%, 47%)', // #4A7FA7 (Medium steel blue)
+      'hsl(217, 66%, 12%)'  // #0A1931 (Deep navy)
+    ],
+    dark: [
+      'hsl(217, 50%, 22%)', // Dark base surface subtle
+      'hsl(211, 56%, 25%)', // #1A3D63 (Dark steel blue)
+      'hsl(206, 39%, 47%)', // #4A7FA7 (Medium steel blue)
+      'hsl(206, 49%, 70%)', // Ice steel
+      'hsl(206, 49%, 80%)'  // #B3CFE5 (Ice blue accent)
+    ]
   };
-
-  const cellStyle = (level) => ({
-    width: '10px',
-    height: '10px',
-    backgroundColor: getLevelColor(level),
-    borderRadius: '2px',
-    transition: 'all var(--transition-fast)'
-  });
 
   return (
     <div style={containerStyle} className="contribution-graph-card">
-      <style>{`
-        :root {
-          /* Light theme graph colors */
-          --graph-level-0: light-dark(hsl(210, 15%, 90%), hsl(220, 20%, 18%));
-          --graph-level-1: light-dark(#9be9a8, #0e4429);
-          --graph-level-2: light-dark(#40c463, #006d32);
-          --graph-level-3: light-dark(#30a14e, #26a641);
-          --graph-level-4: light-dark(#216e39, #39d353);
-        }
-        .contrib-cell:hover {
-          transform: scale(1.3);
-          outline: 1px solid var(--color-accent);
-          z-index: 10;
-        }
-      `}</style>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h4 style={{ margin: 0, fontWeight: '700' }}>GitHub Contributions</h4>
-        <span style={{ fontSize: '0.9rem', color: 'var(--text-subtle)', fontWeight: '600' }}>
-          {total} contributions in the last year
-        </span>
-      </div>
-
-      <div style={gridStyle} className="contribution-grid">
-        {days.map((day, idx) => (
-          <div
-            key={idx}
-            style={cellStyle(day.level)}
-            className="contrib-cell"
-            title={`${day.count} commits on ${day.date}`}
-          />
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '5px', marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
-        <span>Less</span>
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-0)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-1)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-2)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-3)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-4)', borderRadius: '2px' }} />
-        <span>More</span>
+      <h4 style={{ margin: 0, fontWeight: '700', fontSize: '1.1rem' }}>GitHub Contributions</h4>
+      
+      <div style={{ width: '100%', overflowX: 'auto', display: 'flex', justifyContent: 'center' }} className="calendar-scrollbar-wrapper">
+        <style>{`
+          .calendar-scrollbar-wrapper svg {
+            max-width: 100%;
+            height: auto;
+          }
+          .react-activity-calendar {
+            width: 100%;
+            color: var(--text-primary);
+          }
+          .react-activity-calendar__legend, 
+          .react-activity-calendar__label {
+            fill: var(--text-subtle) !important;
+            color: var(--text-subtle) !important;
+          }
+        `}</style>
+        <GitHubCalendar 
+          username={username}
+          theme={customTheme}
+          hideColorLegend={false}
+          hideTotalCount={false}
+          hideMonthLabels={false}
+        />
       </div>
     </div>
   );

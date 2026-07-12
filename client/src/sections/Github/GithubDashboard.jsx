@@ -38,9 +38,7 @@ export const GithubDashboard = () => {
               />
             )}
 
-            {contributions && (
-              <ContributionGraph contributions={contributions} />
-            )}
+            <ContributionGraph />
 
             {repos && repos.length > 0 && (
               <>

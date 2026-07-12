@@ -13,14 +13,28 @@ export const useGithubData = () => {
       try {
         setLoading(true);
         const [profileData, reposData, contributionsData] = await Promise.all([
-          fetchGithubProfile(),
-          fetchGithubRepos(),
-          fetchGithubContributions()
+          fetchGithubProfile().catch(err => {
+            console.error('Failed to load GitHub profile:', err);
+            return null;
+          }),
+          fetchGithubRepos().catch(err => {
+            console.error('Failed to load GitHub repos:', err);
+            return [];
+          }),
+          fetchGithubContributions().catch(err => {
+            console.error('Failed to load GitHub contributions:', err);
+            return null;
+          })
         ]);
         
         setProfile(profileData);
         setRepos(reposData);
         setContributions(contributionsData);
+
+        // Only block with error screen if both critical endpoints failed
+        if (!profileData && (!reposData || reposData.length === 0)) {
+          setError('Could not retrieve details from GitHub API.');
+        }
       } catch (err) {
         console.error('Failed to load GitHub data:', err);
         setError(err.message || 'Failed to load GitHub data');
