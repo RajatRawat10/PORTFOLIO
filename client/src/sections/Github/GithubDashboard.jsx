@@ -19,38 +19,40 @@ export const GithubDashboard = () => {
           subtitle="Real-time open source statistics and project repositories fetched securely via backend proxy."
         />
 
-        {loading ? (
-          <Loader type="spinner" />
-        ) : error ? (
-          <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', color: 'var(--text-subtle)' }}>
-            <p style={{ margin: 0, fontWeight: '600' }}>Could not load real-time GitHub data: {error}</p>
-            <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', marginInline: 'auto', maxWidth: '500px' }}>
-              Ensure your backend Express server is running, or that your GITHUB_TOKEN and connection properties are correct.
-            </p>
-          </div>
-        ) : (
-          <div className="github-dashboard-container reveal">
-            {profile && (
-              <GithubStats
-                profile={profile}
-                totalContributions={contributions?.total || 0}
-              />
-            )}
+        <div className="github-dashboard-container reveal">
+          <ContributionGraph />
 
-            <ContributionGraph />
+          {loading ? (
+            <Loader type="spinner" />
+          ) : error ? (
+            <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', color: 'var(--text-subtle)' }}>
+              <p style={{ margin: 0, fontWeight: '600' }}>Could not load additional GitHub stats: {error}</p>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', marginInline: 'auto', maxWidth: '500px' }}>
+                Ensure your backend Express server is running, or that your GITHUB_TOKEN is correct.
+              </p>
+            </div>
+          ) : (
+            <>
+              {profile && (
+                <GithubStats
+                  profile={profile}
+                  totalContributions={contributions?.total || 0}
+                />
+              )}
 
-            {repos && repos.length > 0 && (
-              <>
-                <h3 className="repos-section-title">Featured Repositories</h3>
-                <div className="github-repos-grid">
-                  {repos.map((repo) => (
-                    <RepoCard key={repo.id} repo={repo} />
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
+              {repos && repos.length > 0 && (
+                <>
+                  <h3 className="repos-section-title">Featured Repositories</h3>
+                  <div className="github-repos-grid">
+                    {repos.map((repo) => (
+                      <RepoCard key={repo.id} repo={repo} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </section>
   );
