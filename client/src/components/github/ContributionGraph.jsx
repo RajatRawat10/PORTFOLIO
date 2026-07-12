@@ -1,98 +1,73 @@
-import React from 'react';
+import { useMemo } from 'react';
+import GitHubCalendar from 'react-github-calendar';
+import { personalInfo } from '../../data/personalInfo';
+import './ContributionGraph.css';
 
-export const ContributionGraph = ({ contributions }) => {
-  if (!contributions || !contributions.days) {
-    return null;
-  }
-
-  const { total, days } = contributions;
-
-  // GitHub contribution colors based on levels (0-4)
-  const getLevelColor = (level) => {
-    switch (level) {
-      case 1:
-        return 'var(--graph-level-1, #0e4429)';
-      case 2:
-        return 'var(--graph-level-2, #006d32)';
-      case 3:
-        return 'var(--graph-level-3, #26a641)';
-      case 4:
-        return 'var(--graph-level-4, #39d353)';
-      default:
-        return 'var(--graph-level-0, var(--border-color))';
+export const ContributionGraph = () => {
+  // 1. Safely extract/memoize username from personalInfo to prevent runtime errors
+  const username = useMemo(() => {
+    try {
+      if (!personalInfo || typeof personalInfo.github !== 'string') {
+        return 'rajatrawat10';
+      }
+      const url = personalInfo.github.trim();
+      if (!url) return 'rajatrawat10';
+      
+      const cleanUrl = url.replace(/\/+$/, '').split('?')[0];
+      const parts = cleanUrl.split('/');
+      const parsed = parts[parts.length - 1];
+      
+      return parsed && parsed !== 'github.com' ? parsed : 'rajatrawat10';
+    } catch (e) {
+      console.error('Error parsing GitHub URL, using fallback:', e);
+      return 'rajatrawat10';
     }
-  };
+  }, []);
 
-  const containerStyle = {
-    padding: '1.5rem',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    boxShadow: 'var(--shadow-sm)',
-    width: '100%',
-    overflowX: 'auto',
-  };
+  // 2. Memoize custom theme array using CSS design variables
+  const themeColors = useMemo(() => [
+    'var(--contrib-color-0)',
+    'var(--contrib-color-1)',
+    'var(--contrib-color-2)',
+    'var(--contrib-color-3)',
+    'var(--contrib-color-4)'
+  ], []);
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateRows: 'repeat(7, 10px)',
-    gridAutoFlow: 'column',
-    gap: '3px',
-    minWidth: '700px',
-    marginTop: '1rem'
-  };
+  const customTheme = useMemo(() => ({
+    light: themeColors,
+    dark: themeColors
+  }), [themeColors]);
 
-  const cellStyle = (level) => ({
-    width: '10px',
-    height: '10px',
-    backgroundColor: getLevelColor(level),
-    borderRadius: '2px',
-    transition: 'all var(--transition-fast)'
-  });
+  // 3. Define fallback UI element when calendar fetching fails
+  const errorFallback = useMemo(() => (
+    <div className="calendar-error-container" role="alert">
+      <p className="calendar-error-message">Failed to load GitHub activity grid</p>
+      <p className="calendar-error-subtext">
+        Check that the GitHub username "{username}" is valid, or check your internet connection.
+      </p>
+    </div>
+  ), [username]);
 
   return (
-    <div style={containerStyle} className="contribution-graph-card">
-      <style>{`
-        :root {
-          /* Light theme graph colors */
-          --graph-level-0: light-dark(hsl(210, 15%, 90%), hsl(220, 20%, 18%));
-          --graph-level-1: light-dark(#9be9a8, #0e4429);
-          --graph-level-2: light-dark(#40c463, #006d32);
-          --graph-level-3: light-dark(#30a14e, #26a641);
-          --graph-level-4: light-dark(#216e39, #39d353);
-        }
-        .contrib-cell:hover {
-          transform: scale(1.3);
-          outline: 1px solid var(--color-accent);
-          z-index: 10;
-        }
-      `}</style>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h4 style={{ margin: 0, fontWeight: '700' }}>GitHub Contributions</h4>
-        <span style={{ fontSize: '0.9rem', color: 'var(--text-subtle)', fontWeight: '600' }}>
-          {total} contributions in the last year
-        </span>
-      </div>
-
-      <div style={gridStyle} className="contribution-grid">
-        {days.map((day, idx) => (
-          <div
-            key={idx}
-            style={cellStyle(day.level)}
-            className="contrib-cell"
-            title={`${day.count} commits on ${day.date}`}
-          />
-        ))}
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '5px', marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-subtle)' }}>
-        <span>Less</span>
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-0)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-1)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-2)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-3)', borderRadius: '2px' }} />
-        <div style={{ width: '10px', height: '10px', backgroundColor: 'var(--graph-level-4)', borderRadius: '2px' }} />
-        <span>More</span>
+    <div 
+      className="contribution-graph-card"
+      role="region"
+      aria-label="GitHub contributions tracker"
+    >
+      <h4 className="contribution-graph-title">GitHub Contributions</h4>
+      
+      <div 
+        className="calendar-scrollbar-wrapper"
+        tabIndex="0"
+        role="group"
+        aria-label="GitHub contributions calendar grid. Use arrow keys to scroll."
+      >
+        <GitHubCalendar 
+          username={username}
+          theme={customTheme}
+          throwOnError={false}
+          errorMessage={errorFallback}
+        />
       </div>
     </div>
   );

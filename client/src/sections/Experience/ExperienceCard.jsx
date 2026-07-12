@@ -1,4 +1,3 @@
-import React from 'react';
 
 export const ExperienceCard = ({ exp }) => {
   const cardStyle = {

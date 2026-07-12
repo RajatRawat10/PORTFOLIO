@@ -1,4 +1,3 @@
-import React from 'react';
 import SectionTitle from '../../components/ui/SectionTitle';
 import Button from '../../components/ui/Button';
 import { personalInfo } from '../../data/personalInfo';
