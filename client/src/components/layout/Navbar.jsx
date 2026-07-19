@@ -5,7 +5,13 @@ export const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      return savedTheme === 'dark';
+    }
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
 
   // Handle scroll active states and background changes
   useEffect(() => {
@@ -37,14 +43,25 @@ export const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Sync theme status to root class list and color scheme property
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.style.setProperty('color-scheme', 'dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+      root.style.setProperty('color-scheme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
   // Theme Toggler
   const toggleTheme = () => {
-    const root = document.documentElement;
-    const currentScheme = root.style.getPropertyValue('color-scheme') || 'dark';
-    const nextScheme = currentScheme === 'dark' ? 'light' : 'dark';
-    
-    root.style.setProperty('color-scheme', nextScheme);
-    setIsDarkMode(nextScheme === 'dark');
+    setIsDarkMode(prev => !prev);
   };
 
   return (

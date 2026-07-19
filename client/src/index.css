@@ -1,8 +1,9 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   /* System-wide light/dark configuration */
-  color-scheme: dark light;
+  color-scheme: light dark;
 
   /* Theme variables matching variables.css */
   --bg-primary: hsl(206, 64%, 98%);
@@ -25,24 +26,46 @@
   --contrib-color-4: hsl(217, 66%, 12%);
 
   @media (prefers-color-scheme: dark) {
-    --bg-primary: hsl(217, 66%, 12%);
-    --bg-surface: hsl(217, 55%, 17%);
-    --bg-surface-subtle: hsl(217, 50%, 22%);
-    --text-primary: hsl(206, 64%, 98%);
-    --text-subtle: hsl(206, 40%, 75%);
-    --color-accent: hsl(206, 49%, 80%);
-    --color-accent-hover: hsl(206, 49%, 72%);
-    --border-color: hsl(211, 56%, 25%);
-    --glow-color: hsla(206, 49%, 80%, 0.15);
-    --glass-bg: rgba(13, 17, 23, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.08);
+    &:not(.light) {
+      --bg-primary: hsl(217, 66%, 12%);
+      --bg-surface: hsl(217, 55%, 17%);
+      --bg-surface-subtle: hsl(217, 50%, 22%);
+      --text-primary: hsl(206, 64%, 98%);
+      --text-subtle: hsl(206, 40%, 75%);
+      --color-accent: hsl(206, 49%, 80%);
+      --color-accent-hover: hsl(206, 49%, 72%);
+      --border-color: hsl(211, 56%, 25%);
+      --glow-color: hsla(206, 49%, 80%, 0.15);
+      --glass-bg: rgba(13, 17, 23, 0.7);
+      --glass-border: rgba(255, 255, 255, 0.08);
 
-    --contrib-color-0: hsl(217, 50%, 22%);
-    --contrib-color-1: hsl(211, 56%, 25%);
-    --contrib-color-2: hsl(206, 39%, 47%);
-    --contrib-color-3: hsl(206, 49%, 70%);
-    --contrib-color-4: hsl(206, 49%, 80%);
+      --contrib-color-0: hsl(217, 50%, 22%);
+      --contrib-color-1: hsl(211, 56%, 25%);
+      --contrib-color-2: hsl(206, 39%, 47%);
+      --contrib-color-3: hsl(206, 49%, 70%);
+      --contrib-color-4: hsl(206, 49%, 80%);
+    }
   }
+}
+
+.dark {
+  --bg-primary: hsl(217, 66%, 12%) !important;
+  --bg-surface: hsl(217, 55%, 17%) !important;
+  --bg-surface-subtle: hsl(217, 50%, 22%) !important;
+  --text-primary: hsl(206, 64%, 98%) !important;
+  --text-subtle: hsl(206, 40%, 75%) !important;
+  --color-accent: hsl(206, 49%, 80%) !important;
+  --color-accent-hover: hsl(206, 49%, 72%) !important;
+  --border-color: hsl(211, 56%, 25%) !important;
+  --glow-color: hsla(206, 49%, 80%, 0.15) !important;
+  --glass-bg: rgba(13, 17, 23, 0.7) !important;
+  --glass-border: rgba(255, 255, 255, 0.08) !important;
+
+  --contrib-color-0: hsl(217, 50%, 22%) !important;
+  --contrib-color-1: hsl(211, 56%, 25%) !important;
+  --contrib-color-2: hsl(206, 39%, 47%) !important;
+  --contrib-color-3: hsl(206, 49%, 70%) !important;
+  --contrib-color-4: hsl(206, 49%, 80%) !important;
 }
 
 @theme {
