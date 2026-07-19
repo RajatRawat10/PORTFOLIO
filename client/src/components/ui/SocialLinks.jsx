@@ -2,47 +2,15 @@ import React from 'react';
 import { personalInfo } from '../../data/personalInfo';
 
 export const SocialLinks = ({ className = '' }) => {
-  const containerStyle = {
-    display: 'flex',
-    gap: '1.25rem',
-    alignItems: 'center'
-  };
-
-  const linkStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '44px',
-    height: '44px',
-    borderRadius: '50%',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    color: 'var(--text-subtle)',
-    fontSize: '1.25rem',
-    transition: 'all var(--transition-fast)',
-    boxShadow: 'var(--shadow-sm)'
-  };
-
-  const linkHoverStyle = `
-    .social-link-item:hover {
-      color: var(--color-accent) !important;
-      border-color: var(--color-accent) !important;
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      background-color: var(--glow-color) !important;
-    }
-  `;
+  const itemClass = "flex items-center justify-center w-11 h-11 rounded-full bg-bg-surf border border-border-main text-text-muted hover:text-brand hover:border-brand hover:-translate-y-1 hover:shadow-md hover:bg-glow-custom transition-all duration-150 shadow-sm";
 
   return (
-    <div style={containerStyle} className={`social-links-list ${className}`}>
-      <style>{linkHoverStyle}</style>
-      
+    <div className={`flex gap-5 items-center ${className}`}>
       <a
         href={personalInfo.github}
         target="_blank"
         rel="noopener noreferrer"
-        style={linkStyle}
-        className="social-link-item"
+        className={itemClass}
         aria-label="GitHub Profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -54,8 +22,7 @@ export const SocialLinks = ({ className = '' }) => {
         href={personalInfo.linkedin}
         target="_blank"
         rel="noopener noreferrer"
-        style={linkStyle}
-        className="social-link-item"
+        className={itemClass}
         aria-label="LinkedIn Profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -69,8 +36,7 @@ export const SocialLinks = ({ className = '' }) => {
         href={personalInfo.twitter}
         target="_blank"
         rel="noopener noreferrer"
-        style={linkStyle}
-        className="social-link-item"
+        className={itemClass}
         aria-label="Twitter Profile"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -80,8 +46,7 @@ export const SocialLinks = ({ className = '' }) => {
 
       <a
         href={`mailto:${personalInfo.email}`}
-        style={linkStyle}
-        className="social-link-item"
+        className={itemClass}
         aria-label="Email Address"
       >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

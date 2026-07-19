@@ -47,97 +47,37 @@ export const Navbar = () => {
     setIsDarkMode(nextScheme === 'dark');
   };
 
-  const navStyle = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    zIndex: 1000,
-    transition: 'all var(--transition-normal)',
-    paddingBlock: scrolled ? '0.75rem' : '1.5rem',
-    borderBottom: scrolled ? '1px solid var(--glass-border)' : '1px solid transparent'
-  };
-
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  };
-
-  const logoStyle = {
-    fontWeight: '800',
-    fontSize: '1.25rem',
-    color: 'var(--text-primary)',
-    letterSpacing: '-0.5px'
-  };
-
-  const menuStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '2rem',
-  };
-
-  const linkStyle = (id) => ({
-    color: activeSection === id ? 'var(--color-accent)' : 'var(--text-subtle)',
-    fontWeight: '600',
-    fontSize: '0.95rem',
-    cursor: 'pointer',
-    position: 'relative',
-    transition: 'color var(--transition-fast)',
-  });
-
-  const toggleButtonStyle = {
-    background: 'none',
-    border: 'none',
-    color: 'var(--text-primary)',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '0.5rem',
-    borderRadius: 'var(--radius-sm)',
-    backgroundColor: 'var(--bg-surface-subtle)'
-  };
-
   return (
     <nav
-      style={navStyle}
-      className={scrolled ? 'glassmorphism' : ''}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out ${
+        scrolled ? 'py-3 glassmorphism border-b border-white/8 dark:border-white/8' : 'py-6 border-b border-transparent'
+      }`}
     >
-      <div className="container" style={containerStyle}>
-        <a href="#hero" style={logoStyle}>
+      <div className="container flex justify-between items-center">
+        <a href="#hero" className="font-extrabold text-xl text-text-main tracking-tight">
           {APP_NAME}
         </a>
 
         {/* Desktop Menu */}
-        <div style={menuStyle} className="desktop-nav-menu">
+        <div className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <a
               key={link.id}
               href={`#${link.id}`}
-              style={linkStyle(link.id)}
-              className="nav-link-item"
+              className={`relative font-semibold text-[0.95rem] cursor-pointer transition-colors duration-150 ${
+                activeSection === link.id ? 'text-brand' : 'text-text-muted hover:text-brand'
+              }`}
             >
               {link.label}
               {activeSection === link.id && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    bottom: '-4px',
-                    left: 0,
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor: 'var(--color-accent)',
-                    borderRadius: 'var(--radius-full)'
-                  }}
-                />
+                <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-brand rounded-full" />
               )}
             </a>
           ))}
 
           <button
             onClick={toggleTheme}
-            style={toggleButtonStyle}
+            className="p-2 rounded-sm bg-bg-surf-subtle text-text-main cursor-pointer flex items-center justify-center hover:bg-border-main/40 transition-colors"
             aria-label="Toggle light and dark mode theme"
           >
             {isDarkMode ? (
@@ -162,12 +102,8 @@ export const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="mobile-toggle-btn"
+          className="md:hidden p-2 rounded-sm bg-bg-surf-subtle text-text-main cursor-pointer flex items-center justify-center hover:bg-border-main/40 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          style={{
-            ...toggleButtonStyle,
-            display: 'none',
-          }}
           aria-label="Toggle mobile menu"
         >
           {mobileMenuOpen ? (
@@ -187,28 +123,14 @@ export const Navbar = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div
-          className="mobile-nav-drawer glassmorphism"
-          style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            padding: '1.5rem',
-            gap: '1rem',
-            borderBottom: '1px solid var(--border-color)',
-          }}
-        >
+        <div className="absolute top-full left-0 w-full flex flex-col p-6 gap-4 border-b border-border-main glassmorphism md:hidden">
           {NAV_LINKS.map((link) => (
             <a
               key={link.id}
               href={`#${link.id}`}
-              style={{
-                ...linkStyle(link.id),
-                paddingBlock: '0.5rem'
-              }}
+              className={`font-semibold text-[0.95rem] cursor-pointer transition-colors duration-150 py-2 ${
+                activeSection === link.id ? 'text-brand' : 'text-text-muted hover:text-brand'
+              }`}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.label}
@@ -219,28 +141,12 @@ export const Navbar = () => {
               toggleTheme();
               setMobileMenuOpen(false);
             }}
-            style={{
-              ...toggleButtonStyle,
-              marginTop: '0.5rem',
-              alignSelf: 'flex-start',
-            }}
+            className="p-2 rounded-sm bg-bg-surf-subtle text-text-main cursor-pointer flex items-center justify-center hover:bg-border-main/40 transition-colors mt-2 self-start"
           >
             Toggle Theme
           </button>
         </div>
       )}
-
-      {/* Embedded CSS rules for layout queries */}
-      <style>{`
-        @media (max-width: 768px) {
-          .desktop-nav-menu {
-            display: none !important;
-          }
-          .mobile-toggle-btn {
-            display: flex !important;
-          }
-        }
-      `}</style>
     </nav>
   );
 };

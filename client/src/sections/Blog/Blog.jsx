@@ -24,13 +24,6 @@ export const Blog = () => {
     getBlogs();
   }, []);
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '2.5rem',
-    width: '100%'
-  };
-
   return (
     <section id="blog" className="section" ref={containerRef}>
       <div className="container">
@@ -42,7 +35,7 @@ export const Blog = () => {
         {loading ? (
           <Loader type="spinner" />
         ) : (
-          <div style={gridStyle} className="blogs-grid">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-10 w-full blogs-grid">
             {blogs.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}

@@ -7,13 +7,6 @@ import useScrollAnimation from '../../hooks/useScrollAnimation';
 export const Skills = () => {
   const containerRef = useScrollAnimation();
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: '2.5rem',
-    width: '100%'
-  };
-
   return (
     <section id="skills" className="section" ref={containerRef}>
       <div className="container">
@@ -22,7 +15,7 @@ export const Skills = () => {
           subtitle="A visual roadmap of my technical capabilities and proficiency levels."
         />
 
-        <div style={gridStyle} className="skills-grid">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-10 w-full skills-grid">
           {skillsData.map((cat, idx) => (
             <SkillCard key={idx} category={cat} />
           ))}

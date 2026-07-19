@@ -5,7 +5,6 @@ import ContributionGraph from '../../components/github/ContributionGraph';
 import RepoCard from '../../components/github/RepoCard';
 import useGithubData from '../../hooks/useGithubData';
 import useScrollAnimation from '../../hooks/useScrollAnimation';
-import './GithubDashboard.css';
 
 export const GithubDashboard = () => {
   const containerRef = useScrollAnimation();
@@ -19,15 +18,15 @@ export const GithubDashboard = () => {
           subtitle="Real-time open source statistics and project repositories fetched securely via backend proxy."
         />
 
-        <div className="github-dashboard-container reveal">
+        <div className="flex flex-col gap-8 w-full reveal">
           <ContributionGraph />
 
           {loading ? (
             <Loader type="spinner" />
           ) : error ? (
-            <div style={{ padding: '2rem', textAlign: 'center', backgroundColor: 'var(--bg-surface-subtle)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)', color: 'var(--text-subtle)' }}>
-              <p style={{ margin: 0, fontWeight: '600' }}>Could not load additional GitHub stats: {error}</p>
-              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', marginInline: 'auto', maxWidth: '500px' }}>
+            <div className="p-8 text-center bg-bg-surf-subtle rounded-xl border border-border-main text-text-muted">
+              <p className="m-0 font-semibold">Could not load additional GitHub stats: {error}</p>
+              <p className="text-sm mt-2 mx-auto max-w-[500px]">
                 Ensure your backend Express server is running, or that your GITHUB_TOKEN is correct.
               </p>
             </div>
@@ -42,8 +41,8 @@ export const GithubDashboard = () => {
 
               {repos && repos.length > 0 && (
                 <>
-                  <h3 className="repos-section-title">Featured Repositories</h3>
-                  <div className="github-repos-grid">
+                  <h3 className="mt-6 text-2xl font-bold text-text-main">Featured Repositories</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-8 w-full">
                     {repos.map((repo) => (
                       <RepoCard key={repo.id} repo={repo} />
                     ))}

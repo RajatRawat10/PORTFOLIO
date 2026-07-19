@@ -7,13 +7,6 @@ import useScrollAnimation from '../../hooks/useScrollAnimation';
 export const Projects = () => {
   const containerRef = useScrollAnimation();
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-    gap: '2.5rem',
-    width: '100%'
-  };
-
   return (
     <section id="projects" className="section" ref={containerRef}>
       <div className="container">
@@ -22,7 +15,7 @@ export const Projects = () => {
           subtitle="A curated showcase of applications I have designed, built, and deployed."
         />
 
-        <div style={gridStyle} className="projects-grid">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-10 w-full projects-grid">
           {projectsData.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
