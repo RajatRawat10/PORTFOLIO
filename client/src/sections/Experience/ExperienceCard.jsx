@@ -1,65 +1,27 @@
+import React from 'react';
 
 export const ExperienceCard = ({ exp }) => {
-  const cardStyle = {
-    position: 'relative',
-    padding: '2rem',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    boxShadow: 'var(--shadow-sm)',
-    marginLeft: '2rem',
-    transition: 'all var(--transition-normal)'
-  };
-
-  const timelineNodeStyle = {
-    position: 'absolute',
-    left: '-2.7rem',
-    top: '2rem',
-    width: '16px',
-    height: '16px',
-    borderRadius: '50%',
-    backgroundColor: 'var(--color-accent)',
-    border: '4px solid var(--bg-primary)',
-    zIndex: 2,
-    boxShadow: '0 0 10px var(--glow-color)'
-  };
-
   return (
-    <div style={{ position: 'relative', marginBottom: '2.5rem' }} className="timeline-item reveal">
-      <style>{`
-        .timeline-item:hover .exp-card {
-          transform: translateX(4px);
-          border-color: var(--color-accent);
-          box-shadow: var(--shadow-md);
-        }
-      `}</style>
-      <div style={timelineNodeStyle} />
-      <div style={cardStyle} className="exp-card glow-card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
+    <div className="group relative mb-10 timeline-item reveal">
+      <div className="absolute left-[-2.7rem] top-8 w-4 h-4 rounded-full bg-brand border-[4px] border-bg-main z-20 shadow-[0_0_10px_var(--glow-color)]" />
+      <div className="exp-card glow-card relative p-8 rounded-xl bg-bg-surf border border-border-main shadow-sm ml-8 transition-all duration-300 group-hover:translate-x-1 group-hover:border-brand group-hover:shadow-md">
+        <div className="flex justify-between flex-wrap gap-2 mb-4">
           <div>
-            <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700' }}>{exp.role}</h3>
-            <span style={{ fontSize: '1rem', color: 'var(--color-accent)', fontWeight: '600' }}>{exp.company}</span>
+            <h3 className="m-0 text-xl font-bold">{exp.role}</h3>
+            <span className="text-[1rem] text-brand font-semibold">{exp.company}</span>
           </div>
-          <span style={{
-            fontSize: '0.85rem',
-            fontWeight: '600',
-            color: 'var(--text-subtle)',
-            padding: '0.25rem 0.75rem',
-            backgroundColor: 'var(--bg-surface-subtle)',
-            borderRadius: 'var(--radius-full)',
-            height: 'fit-content'
-          }}>
+          <span className="text-[0.85rem] font-semibold text-text-muted px-3 py-1 bg-bg-surf-subtle rounded-full h-fit">
             {exp.duration}
           </span>
         </div>
         {Array.isArray(exp.description) ? (
-          <ul style={{ margin: 0, paddingLeft: '1.2rem', fontSize: '0.95rem', color: 'var(--text-subtle)', lineHeight: '1.6', listStyleType: 'disc' }}>
+          <ul className="m-0 pl-5 text-[0.95rem] text-text-muted leading-relaxed list-disc">
             {exp.description.map((bullet, idx) => (
-              <li key={idx} style={{ marginBottom: '0.5rem' }}>{bullet}</li>
+              <li key={idx} className="mb-2">{bullet}</li>
             ))}
           </ul>
         ) : (
-          <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-subtle)', lineHeight: '1.6' }}>
+          <p className="m-0 text-[0.95rem] text-text-muted leading-relaxed">
             {exp.description}
           </p>
         )}

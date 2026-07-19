@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import GitHubCalendar from 'react-github-calendar';
 import { personalInfo } from '../../data/personalInfo';
-import './ContributionGraph.css';
 
 export const ContributionGraph = () => {
   // 1. Safely extract/memoize username from personalInfo to prevent runtime errors
@@ -40,9 +39,9 @@ export const ContributionGraph = () => {
 
   // 3. Define fallback UI element when calendar fetching fails
   const errorFallback = useMemo(() => (
-    <div className="calendar-error-container" role="alert">
-      <p className="calendar-error-message">Failed to load GitHub activity grid</p>
-      <p className="calendar-error-subtext">
+    <div className="flex flex-col items-center justify-center p-8 text-center bg-bg-surf-subtle rounded-xl border border-border-main text-text-muted w-full box-border" role="alert">
+      <p className="m-0 font-semibold text-text-main">Failed to load GitHub activity grid</p>
+      <p className="text-sm mt-2 max-w-[500px]">
         Check that the GitHub username "{username}" is valid, or check your internet connection.
       </p>
     </div>
@@ -50,14 +49,14 @@ export const ContributionGraph = () => {
 
   return (
     <div 
-      className="contribution-graph-card"
+      className="p-8 rounded-xl bg-bg-surf border border-border-main shadow-sm w-full flex flex-col gap-6 box-border"
       role="region"
       aria-label="GitHub contributions tracker"
     >
-      <h4 className="contribution-graph-title">GitHub Contributions</h4>
+      <h4 className="m-0 font-bold text-lg text-text-main">GitHub Contributions</h4>
       
       <div 
-        className="calendar-scrollbar-wrapper"
+        className="w-full overflow-x-auto flex justify-center outline-none rounded-sm focus-visible:outline-2 focus-visible:outline-brand focus-visible:outline-offset-4"
         tabIndex="0"
         role="group"
         aria-label="GitHub contributions calendar grid. Use arrow keys to scroll."

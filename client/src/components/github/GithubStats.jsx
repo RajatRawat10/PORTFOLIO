@@ -36,34 +36,16 @@ export const GithubStats = ({ profile, totalContributions }) => {
     }
   ];
 
-  const gridStyle = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '1.5rem',
-    width: '100%'
-  };
-
-  const cardStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '1.25rem',
-    padding: '1.5rem',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    boxShadow: 'var(--shadow-sm)'
-  };
-
   return (
-    <div style={gridStyle} className="github-stats-grid">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6 w-full github-stats-grid">
       {stats.map((stat, idx) => (
-        <div key={idx} style={cardStyle} className="github-stat-card glow-card">
-          <div style={{ color: 'var(--color-accent)', padding: '0.5rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--glow-color)' }}>
+        <div key={idx} className="github-stat-card glow-card flex items-center gap-5 p-6 rounded-xl bg-bg-surf border border-border-main shadow-sm">
+          <div className="text-brand p-2 rounded-sm bg-glow-custom">
             {stat.icon}
           </div>
           <div>
-            <div style={{ fontSize: '1.8rem', fontWeight: '800', lineHeight: 1 }}>{stat.value}</div>
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-subtle)', marginTop: '0.25rem', fontWeight: '600' }}>{stat.label}</div>
+            <div className="text-3xl font-extrabold leading-none">{stat.value}</div>
+            <div className="text-[0.85rem] text-text-muted mt-1 font-semibold">{stat.label}</div>
           </div>
         </div>
       ))}

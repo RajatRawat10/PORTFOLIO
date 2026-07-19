@@ -1,74 +1,24 @@
 import React from 'react';
 
 export const SkillCard = ({ category }) => {
-  const cardStyle = {
-    padding: '2rem',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    boxShadow: 'var(--shadow-sm)',
-    transition: 'all var(--transition-normal)'
-  };
-
-  const listStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.25rem',
-    marginTop: '1.5rem'
-  };
-
-  const skillRowStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.4rem'
-  };
-
-  const labelRowStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    fontSize: '0.9rem',
-    fontWeight: '600'
-  };
-
-  const progressTrackStyle = {
-    width: '100%',
-    height: '6px',
-    backgroundColor: 'var(--bg-surface-subtle)',
-    borderRadius: 'var(--radius-full)',
-    overflow: 'hidden'
-  };
-
-  const progressFillStyle = (level) => ({
-    width: `${level}%`,
-    height: '100%',
-    backgroundColor: 'var(--color-accent)',
-    borderRadius: 'var(--radius-full)',
-    boxShadow: '0 0 8px var(--glow-color)',
-    transition: 'width 1s cubic-bezier(0.16, 1, 0.3, 1)'
-  });
-
   return (
-    <div style={cardStyle} className="skill-card-container glow-card reveal">
-      <style>{`
-        .skill-card-container:hover {
-          transform: translateY(-4px);
-          border-color: var(--color-accent);
-          box-shadow: var(--shadow-md);
-        }
-      `}</style>
-      <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.75rem' }}>
+    <div className="skill-card-container glow-card reveal p-8 rounded-xl bg-bg-surf border border-border-main shadow-sm hover:-translate-y-1 hover:border-brand hover:shadow-md transition-all duration-300">
+      <h3 className="m-0 text-xl font-bold border-b border-border-main pb-3">
         {category.category}
       </h3>
 
-      <div style={listStyle}>
+      <div className="flex flex-col gap-5 mt-6">
         {category.skills.map((skill, idx) => (
-          <div key={idx} style={skillRowStyle}>
-            <div style={labelRowStyle}>
-              <span style={{ color: 'var(--text-primary)' }}>{skill.name}</span>
-              <span style={{ color: 'var(--color-accent)' }}>{skill.level}%</span>
+          <div key={idx} className="flex flex-col gap-1.5">
+            <div className="flex justify-between text-sm font-semibold">
+              <span className="text-text-main">{skill.name}</span>
+              <span className="text-brand">{skill.level}%</span>
             </div>
-            <div style={progressTrackStyle}>
-              <div style={progressFillStyle(skill.level)} className="progress-fill" />
+            <div className="w-full h-1.5 bg-bg-surf-subtle rounded-full overflow-hidden">
+              <div 
+                style={{ width: `${skill.level}%` }}
+                className="h-full bg-brand rounded-full shadow-[0_0_8px_var(--glow-color)] transition-[width] duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]" 
+              />
             </div>
           </div>
         ))}

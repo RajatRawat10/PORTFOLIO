@@ -34,54 +34,12 @@ export const ContactForm = () => {
     }, 1200);
   };
 
-  const formStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.25rem',
-    width: '100%',
-    padding: '2rem',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--bg-surface)',
-    border: '1px solid var(--border-color)',
-    boxShadow: 'var(--shadow-sm)'
-  };
-
-  const inputGroupStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.4rem'
-  };
-
-  const labelStyle = {
-    fontSize: '0.9rem',
-    fontWeight: '700',
-    color: 'var(--text-primary)'
-  };
-
-  const inputStyle = {
-    padding: '0.75rem 1rem',
-    borderRadius: 'var(--radius-md)',
-    border: '1px solid var(--border-color)',
-    backgroundColor: 'var(--bg-surface-subtle)',
-    color: 'var(--text-primary)',
-    outline: 'none',
-    transition: 'all var(--transition-fast)'
-  };
-
-  const focusStyle = `
-    .form-input:focus {
-      border-color: var(--color-accent) !important;
-      background-color: var(--bg-surface) !important;
-      box-shadow: 0 0 0 3px var(--glow-color);
-    }
-  `;
+  const inputClass = "py-3 px-4 rounded-xl border border-border-main bg-bg-surf-subtle text-text-main outline-none focus:border-brand focus:bg-bg-surf focus:shadow-[0_0_0_3px_var(--glow-color)] transition-all duration-150 form-input";
 
   return (
-    <form style={formStyle} onSubmit={handleSubmit} className="contact-form">
-      <style>{focusStyle}</style>
-
-      <div style={inputGroupStyle}>
-        <label htmlFor="form-name" style={labelStyle}>Your Name</label>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full p-8 rounded-xl bg-bg-surf border border-border-main shadow-sm contact-form">
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="form-name" className="text-sm font-bold text-text-main">Your Name</label>
         <input
           id="form-name"
           type="text"
@@ -89,14 +47,13 @@ export const ContactForm = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          style={inputStyle}
-          className="form-input"
+          className={inputClass}
           placeholder="John Doe"
         />
       </div>
 
-      <div style={inputGroupStyle}>
-        <label htmlFor="form-email" style={labelStyle}>Email Address</label>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="form-email" className="text-sm font-bold text-text-main">Email Address</label>
         <input
           id="form-email"
           type="email"
@@ -104,14 +61,13 @@ export const ContactForm = () => {
           value={formData.email}
           onChange={handleChange}
           required
-          style={inputStyle}
-          className="form-input"
+          className={inputClass}
           placeholder="johndoe@example.com"
         />
       </div>
 
-      <div style={inputGroupStyle}>
-        <label htmlFor="form-subject" style={labelStyle}>Subject</label>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="form-subject" className="text-sm font-bold text-text-main">Subject</label>
         <input
           id="form-subject"
           type="text"
@@ -119,14 +75,13 @@ export const ContactForm = () => {
           value={formData.subject}
           onChange={handleChange}
           required
-          style={inputStyle}
-          className="form-input"
+          className={inputClass}
           placeholder="Inquiry about project..."
         />
       </div>
 
-      <div style={inputGroupStyle}>
-        <label htmlFor="form-message" style={labelStyle}>Message</label>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="form-message" className="text-sm font-bold text-text-main">Message</label>
         <textarea
           id="form-message"
           name="message"
@@ -134,27 +89,17 @@ export const ContactForm = () => {
           onChange={handleChange}
           required
           rows="5"
-          style={{ ...inputStyle, resize: 'vertical' }}
-          className="form-input"
+          className={`${inputClass} resize-y`}
           placeholder="Tell me about your project or inquiry..."
         />
       </div>
 
-      <Button type="submit" disabled={loading} variant="primary" style={{ marginTop: '0.5rem', width: '100%' }}>
+      <Button type="submit" disabled={loading} variant="primary" className="mt-2 w-full">
         {loading ? 'Sending Inquiry...' : 'Send Message'}
       </Button>
 
       {submitted && (
-        <div style={{
-          padding: '1rem',
-          backgroundColor: 'hsla(140, 50%, 50%, 0.15)',
-          border: '1px solid hsl(140, 50%, 50%)',
-          color: 'light-dark(hsl(140, 50%, 20%), hsl(140, 50%, 75%))',
-          borderRadius: 'var(--radius-md)',
-          textAlign: 'center',
-          fontSize: '0.9rem',
-          fontWeight: '600'
-        }}>
+        <div className="p-4 bg-[hsla(140,50%,50%,0.15)] border border-[hsl(140,50%,50%)] text-green-700 dark:text-green-300 rounded-xl text-center text-sm font-semibold">
           Thank you! Your message was sent successfully.
         </div>
       )}
